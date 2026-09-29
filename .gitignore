@@ -1,0 +1,38 @@
+# ── Secrets ────────────────────────────────────────────────────────────────
+# .env holds the Groq API key. It is never committed. .env.example is.
+.env
+.env.*
+!.env.example
+
+# ── Virtual environments ───────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Python bytecode ────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ── Test / tooling caches ──────────────────────────────────────────────────
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# ── Derived data (rebuildable from data/raw/) ──────────────────────────────
+# docs/architecture.md §7: data/raw/ and data/chroma/ are deliberately NOT
+# ignored -- they are committed so the container ships a prebuilt index and every
+# citation is auditable. Only the parsed intermediate is disposable.
+data/parsed/
+!data/parsed/.gitkeep
+
+# ── OS / office noise ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+# Microsoft Office lock files ("~$name.docx")
+~$*

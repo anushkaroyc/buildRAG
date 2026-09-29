@@ -1,0 +1,34 @@
+# Pinned after first successful local install (docs/implementation.md, Phase 1).
+# Python 3.11+ (developed on 3.12.2).
+#
+# CRITICAL: do NOT add `torch` or `sentence-transformers` here. The brief mandates
+# the embedding MODEL sentence-transformers/all-MiniLM-L6-v2, which we load via ONNX
+# through fastembed. The sentence-transformers library imports torch at ~660-930 MB
+# peak RSS and OOMs Render's 512 MB free tier (docs/architecture.md 9.1).
+# tests/test_config.py enforces this.
+#
+# Direct dependencies only; transitive deps are resolved by pip. For the exact
+# resolved set, use the committed virtualenv or run `pip freeze`.
+
+# --- web layer ---
+fastapi==0.142.0
+uvicorn==0.54.0
+pydantic-settings==2.15.0
+jinja2==3.1.6
+
+# --- ingest ---
+httpx==0.28.1
+beautifulsoup4==4.15.0
+lxml==6.1.3
+pypdf==6.19.0
+pdfplumber==0.11.10
+
+# --- embedding + store ---
+fastembed==0.8.1
+chromadb==1.5.9
+
+# --- llm ---
+groq==1.7.0
+
+# --- tests ---
+pytest==9.1.1
