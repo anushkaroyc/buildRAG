@@ -25,9 +25,27 @@ from app.store import COLLECTION_NAME, METADATA_FIELDS, Store, index_stats
 REPO = Path(__file__).resolve().parents[1]
 MANIFEST = REPO / "data" / "manifest.json"
 CHUNKS_JSONL = REPO / "data" / "chunks" / "chunks.jsonl"
+INDEX_DIR = REPO / "data" / "chroma"
+
+
+def index_built() -> bool:
+    """True only if a real index is on disk, anchored at the repo rather than the cwd.
+
+    This deliberately does **not** gate on `manifest.json`. The manifest is a small
+    committed build report that outlives the index, so gating on it let 11 tests
+    run - and fail - on a fresh clone: every query returned an empty list while the
+    gate reported the index present. `data/chroma/` is not committed, so those
+    files and the manifest now have genuinely different lifetimes, and the marker
+    has to ask the question that is actually being tested.
+    """
+    if not INDEX_DIR.exists():
+        return False
+    return any(p.is_file() for p in INDEX_DIR.rglob("*"))
+
 
 needs_index = pytest.mark.skipif(
-    not MANIFEST.exists(), reason="no data/manifest.json; run build_index --embed first"
+    not index_built(),
+    reason=f"no built index at {INDEX_DIR}; run `python -m app.ingest.build_index --embed`",
 )
 
 
