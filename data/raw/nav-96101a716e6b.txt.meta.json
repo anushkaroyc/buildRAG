@@ -1,0 +1,14 @@
+{
+  "url": "https://www.amfiindia.com/spages/NAVAll.txt",
+  "sid": "nav-96101a716e6b",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "748c3f4ebb05bb63ad5eb8b550b4fcbda3fd4d6fef90b3fd88acc1a3291f246e",
+  "content_type": "text/plain",
+  "bytes": 1524014,
+  "fetched_at": "2026-09-29T21:30:10+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/nav-96101a716e6b.txt",
+  "http_date": "Tue, 29 Sep 2026 21:26:33 GMT",
+  "extras": {}
+}

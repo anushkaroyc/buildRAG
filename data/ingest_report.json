@@ -1,0 +1,44 @@
+{
+  "built_at": "2026-09-30T20:03:00+00:00",
+  "n_sources": 24,
+  "n_fetched_ok": 24,
+  "n_docs_parsed": 24,
+  "n_docs_excluded": 0,
+  "excluded": [],
+  "n_chunks": 1926,
+  "n_pages_total": 571,
+  "docs_with_as_of": 24,
+  "chunks_with_as_of": 1926,
+  "chunks_per_scheme": {
+    "HDFC ELSS - Tax Saver Fund": 343,
+    "HDFC Flexi Cap Fund": 617,
+    "HDFC Large Cap Fund": 350,
+    "HDFC Mid Cap Fund": 357,
+    "HDFC Nifty 50 Index Fund": 259
+  },
+  "chunks_per_page_type": {
+    "factsheet": 107,
+    "kim": 346,
+    "nav": 5,
+    "sebi_sid": 259,
+    "sid": 1209
+  },
+  "validation": {
+    "n_chunks": 1926,
+    "ceiling": 220,
+    "max_tokens": 220,
+    "mean_tokens": 180.1,
+    "n_tables": 5,
+    "violations": [],
+    "flagged_oversized": [],
+    "missing_metadata": [],
+    "over_model_limit": []
+  },
+  "offline": true,
+  "phase3": {
+    "n_vectors_written": 1926,
+    "n_vectors_in_store": 1926,
+    "count_matches_chunks": true,
+    "peak_rss_mb": 305.9
+  }
+}

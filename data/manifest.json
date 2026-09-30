@@ -1,0 +1,99 @@
+{
+  "built_at": "2026-09-30T20:08:21+00:00",
+  "n_chunks": 1926,
+  "n_vectors_written": 1926,
+  "n_vectors_in_store": 1926,
+  "collection": "mf_faq_chunks",
+  "space": "cosine",
+  "chroma_path": "data/chroma",
+  "chroma_files": 16,
+  "chroma_size_bytes": 31051936,
+  "embed_model": {
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
+    "runtime": "fastembed/onnxruntime (no torch)",
+    "onnx_threads": 2,
+    "dim": 384,
+    "model_max_seq_length": 256,
+    "quantized": false
+  },
+  "n_schemes": 5,
+  "n_page_types": 5,
+  "chunks_with_as_of": 1926,
+  "timings_s": {
+    "model_load": 1.5,
+    "embed": 297.8,
+    "upsert": 9.1
+  },
+  "memory_mb": {
+    "serving_peak": 305.9,
+    "build_process_peak": 655.5,
+    "render_budget": 512,
+    "gate_3_8_ceiling": 400
+  },
+  "gate_3_8": {
+    "serving_peak_mb": 305.9,
+    "serving_current_mb": 305.9,
+    "steps": [
+      {
+        "step": "runtime imports",
+        "rss_mb": 25.5
+      },
+      {
+        "step": "model loaded",
+        "rss_mb": 265.3
+      },
+      {
+        "step": "chroma open",
+        "rss_mb": 304.6
+      },
+      {
+        "step": "4 queries",
+        "rss_mb": 305.9
+      }
+    ],
+    "index": {
+      "path": "data/chroma",
+      "vectors": 1926,
+      "files": 16,
+      "size_bytes": 31051936
+    },
+    "top_hits": [
+      {
+        "query": "What is the lock-in period for HDFC ELSS Tax Saver Fund?",
+        "id": "sid-71b0231555e8-0046",
+        "distance": 0.3385,
+        "page_type": "sid",
+        "scheme": "HDFC ELSS - Tax Saver Fund",
+        "page_no": 9
+      },
+      {
+        "query": "What is the exit load on HDFC Flexi Cap Fund?",
+        "id": "kim-cebcf71d1b18-0045",
+        "distance": 0.2931,
+        "page_type": "kim",
+        "scheme": "HDFC Nifty 50 Index Fund",
+        "page_no": 16
+      },
+      {
+        "query": "What is the benchmark of HDFC Nifty 50 Index Fund?",
+        "id": "sid-8e79c4219eb1-0058",
+        "distance": 0.1929,
+        "page_type": "sid",
+        "scheme": "HDFC Nifty 50 Index Fund",
+        "page_no": 19
+      },
+      {
+        "query": "What is the expense ratio of HDFC Mid Cap Fund?",
+        "id": "sid-8f5a4fe36ef0-0070",
+        "distance": 0.2746,
+        "page_type": "sid",
+        "scheme": "HDFC Mid Cap Fund",
+        "page_no": 17
+      }
+    ],
+    "gate_3_8_ceiling_mb": 400,
+    "render_budget_mb": 512,
+    "headroom_mb": 206.1,
+    "gate_3_8_pass": true
+  }
+}

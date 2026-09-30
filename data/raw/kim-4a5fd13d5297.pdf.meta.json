@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20ELSS%20Tax%20Saver%20dated%20November%2021%2C%202025_0.pdf",
+  "sid": "kim-4a5fd13d5297",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "a8ce6f3b0cde4e6660da8e6601797cdcc4d71686d3f37342018c436acdb9c7fb",
+  "content_type": "application/pdf",
+  "bytes": 474837,
+  "fetched_at": "2026-09-29T21:30:03+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/kim-4a5fd13d5297.pdf",
+  "http_date": "Fri, 21 Nov 2025 09:58:41 GMT",
+  "extras": {}
+}

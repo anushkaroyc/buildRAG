@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/Others/2026-07/Fund%20Facts%20-%20HDFC%20TaxSaver%20Fund_July%2026.pdf",
+  "sid": "factsheet-acf69db1d0f0",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "b4b12d70b28e30e92c2e06e43c17e85a35aaa5cd99ebc678e9d929602f5d88b6",
+  "content_type": "application/pdf",
+  "bytes": 445804,
+  "fetched_at": "2026-09-29T21:30:01+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/factsheet-acf69db1d0f0.pdf",
+  "http_date": "Thu, 23 Jul 2026 11:12:00 GMT",
+  "extras": {}
+}

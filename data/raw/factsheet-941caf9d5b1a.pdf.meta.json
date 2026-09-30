@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/Others/2026-06/Fund%20Facts%20-%20HDFC%20Large%20Cap%20Fund_June%2026.pdf",
+  "sid": "factsheet-941caf9d5b1a",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "6d45eb8ed437e50bb3a897d86a0094520f0bb650fd0cd8645f9856cdb2d3ac1f",
+  "content_type": "application/pdf",
+  "bytes": 459307,
+  "fetched_at": "2026-09-29T21:29:43+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/factsheet-941caf9d5b1a.pdf",
+  "http_date": "Mon, 22 Jun 2026 09:12:34 GMT",
+  "extras": {}
+}

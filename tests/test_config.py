@@ -21,10 +21,28 @@ def test_defaults_match_architecture_doc():
     s = Settings(_env_file=None)
     assert s.top_k == 5
     assert s.min_score == 0.35
-    assert s.llm_model == "openai/gpt-oss-20b"
+    assert s.groq_model == "openai/gpt-oss-20b"
     assert s.guard_model == "meta-llama/llama-prompt-guard-2-22m"
     assert s.chroma_path == Path("data/chroma")
     assert s.port == 10000
+
+
+def test_groq_model_env_name_is_the_current_one():
+    choices = Settings.model_fields["groq_model"].validation_alias.choices
+    assert "GROQ_MODEL" in {c.upper() for c in choices}
+
+
+def test_groq_model_falls_back_to_the_legacy_llm_model_name(monkeypatch):
+    """An older .env must not silently revert to the default model."""
+    monkeypatch.setenv("LLM_MODEL", "openai/gpt-oss-120b")
+    s = Settings(_env_file=None)
+    assert s.groq_model == "openai/gpt-oss-120b"
+
+
+def test_groq_model_overrides_the_legacy_name(monkeypatch):
+    monkeypatch.setenv("GROQ_MODEL", "new-model")
+    monkeypatch.setenv("LLM_MODEL", "old-model")
+    assert Settings(_env_file=None).groq_model == "new-model"
 
 
 def test_embed_model_is_the_brief_mandated_one():
@@ -110,3 +128,58 @@ def test_vcs_actually_ignores_env_file():
         capture_output=True,
     )
     assert result.returncode == 0, ".env is not actually ignored by git"
+
+
+def test_env_file_is_not_tracked_by_git():
+    """Being ignored is not enough; it must not already be in the index."""
+    import subprocess
+
+    if not (REPO_ROOT / ".git").exists():
+        pytest.skip("not a git repository")
+    result = subprocess.run(
+        ["git", "ls-files", "--error-unmatch", ".env"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+    )
+    assert result.returncode != 0, ".env is tracked in git - the key would be committed"
+
+
+def test_env_example_is_tracked_and_carries_no_secret():
+    """The template ships with the repo, so it must never contain a key."""
+    import subprocess
+
+    example = REPO_ROOT / ".env.example"
+    assert example.exists()
+    if (REPO_ROOT / ".git").exists():
+        result = subprocess.run(
+            ["git", "ls-files", "--error-unmatch", ".env.example"],
+            cwd=REPO_ROOT,
+            capture_output=True,
+        )
+        assert result.returncode == 0, ".env.example should be tracked"
+
+    text = example.read_text(encoding="utf-8")
+    for line in text.splitlines():
+        if line.startswith("GROQ_API_KEY="):
+            assert line.strip() == "GROQ_API_KEY=", "GROQ_API_KEY must ship empty"
+    assert "GROQ_MODEL=openai/gpt-oss-20b" in text
+
+
+def test_settings_load_from_a_dotenv_file(tmp_path):
+    """Prove the python-dotenv path works, including an empty key degrading."""
+    env = tmp_path / ".env"
+    env.write_text("GROQ_API_KEY=\nGROQ_MODEL=openai/gpt-oss-120b\nTOP_K=7\n", encoding="utf-8")
+
+    s = Settings(_env_file=env)
+    assert s.groq_model == "openai/gpt-oss-120b"
+    assert s.top_k == 7
+    # An empty value must read as "unconfigured", not as a usable key (ST-2).
+    assert s.groq_configured is False
+
+
+def test_real_environment_beats_the_dotenv_file(monkeypatch, tmp_path):
+    """A Render env var must override a committed .env without extra code."""
+    env = tmp_path / ".env"
+    env.write_text("GROQ_MODEL=from-dotenv\n", encoding="utf-8")
+    monkeypatch.setenv("GROQ_MODEL", "from-environment")
+    assert Settings(_env_file=env).groq_model == "from-environment"

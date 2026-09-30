@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/SID/2025-05/SID%20-%20HDFC%20Large%20Cap%20Fund%20dated%20May%2030%2C%202025.pdf",
+  "sid": "sid-407936effb8c",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "2a016d09dfec28176de40fdaa906b0d6f913d6c0978770cf0a54370ce27596a5",
+  "content_type": "application/pdf",
+  "bytes": 960923,
+  "fetched_at": "2026-09-29T21:29:45+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/sid-407936effb8c.pdf",
+  "http_date": "Fri, 30 May 2025 06:26:42 GMT",
+  "extras": {}
+}

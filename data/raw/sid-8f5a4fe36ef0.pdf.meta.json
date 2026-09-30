@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Mid%20Cap%20Fund%20dated%20November%2021%2C%202025.pdf",
+  "sid": "sid-8f5a4fe36ef0",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "57e8ce54174a54680b470c3b6489095de8991747ed033de1016419a8d5dde4f1",
+  "content_type": "application/pdf",
+  "bytes": 974479,
+  "fetched_at": "2026-09-29T21:29:57+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/sid-8f5a4fe36ef0.pdf",
+  "http_date": "Fri, 21 Nov 2025 07:04:25 GMT",
+  "extras": {}
+}

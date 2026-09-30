@@ -25,11 +25,29 @@ coverage.xml
 htmlcov/
 
 # ── Derived data (rebuildable from data/raw/) ──────────────────────────────
-# docs/architecture.md §7: data/raw/ and data/chroma/ are deliberately NOT
-# ignored -- they are committed so the container ships a prebuilt index and every
-# citation is auditable. Only the parsed intermediate is disposable.
+# docs/architecture.md §7 originally committed data/chroma/ so the container
+# would ship a prebuilt index and every citation would be auditable. That is a
+# ~31 MB binary vector store in git, and it is not committed here.
+#
+# CONSEQUENCE, and it is a real one: a fresh clone has NO index, so
+#   - POST /ask degrades to ST-1 ("briefly unavailable") instead of answering,
+#   - tests/test_retrieve.py and tests/test_store.py SKIP (they are marked
+#     needs_index), so the suite can report green while exercising almost nothing,
+#   - Render must build the index at boot, which gate 3.8 (512 MB) does not allow.
+# Build it once locally with:
+#   .venv/bin/python -m app.ingest.build_index --offline --embed
+# data/raw/ IS still committed, so that rebuild needs no network.
+data/chroma/
+!data/chroma/.gitkeep
+
+# Parsed intermediate: disposable, and large (1.5 MB of derived JSON).
 data/parsed/
 !data/parsed/.gitkeep
+
+# huggingface_hub download cache for the tokenizer (blobs/refs/.locks/CACHEDIR.TAG).
+# Machine-local, regenerated on demand. The vendored copy that makes chunking work
+# offline is data/tokenizer/tokenizer.json, which IS committed.
+data/tokenizer_cache/
 
 # ── OS / office noise ──────────────────────────────────────────────────────
 .DS_Store

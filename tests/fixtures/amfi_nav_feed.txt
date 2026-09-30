@@ -1,0 +1,9 @@
+Scheme Code;ISIN Div Payout/ ISIN Growth;ISIN Div Reinvestment;Scheme Name;Plan;Option;Net Asset Value;Date
+135762;INF846K01WO1;-;Axis Children's Fund;Direct Plan;Growth Option;29.2283;29-Sep-2026
+135764;INF846K01WR4;-;Axis Children's Fund;Direct Plan;Growth Option;29.7872;29-Sep-2026
+128629;INF179KA1IZ7;-;HDFC Banking and PSU Debt Fund;Direct Plan;Growth Option;25.4408;29-Sep-2026
+118955;INF179K01UT0;-;HDFC Flexi Cap Fund;Direct Plan;Growth Option;2172.708;29-Sep-2026
+119018;INF179K01YV8;-;HDFC Large Cap Fund;Direct Plan;Growth Option;1165.784;29-Sep-2026
+118989;INF179K01XQ0;-;HDFC Mid Cap Fund;Direct Plan;Growth Option;221.354;29-Sep-2026
+119060;INF179K01YS4;-;HDFC ELSS - Tax Saver Fund;Direct Plan;Growth Option;1418.892;29-Sep-2026
+119063;INF179K01WM1;-;HDFC Nifty 50 Index Fund;Direct Plan;Growth Option;222.3328;29-Sep-2026

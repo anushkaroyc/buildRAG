@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/Others/2026-06/Fund%20Facts%20-%20HDFC%20Mid-Cap%20Fund_June%2026.pdf",
+  "sid": "factsheet-552e46c36a74",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "e33854961638ed8709bbd2dce8870676a4a34a386cd6ebdc55b28e4a34fb4035",
+  "content_type": "application/pdf",
+  "bytes": 445859,
+  "fetched_at": "2026-09-29T21:29:54+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/factsheet-552e46c36a74.pdf",
+  "http_date": "Mon, 22 Jun 2026 09:15:07 GMT",
+  "extras": {}
+}

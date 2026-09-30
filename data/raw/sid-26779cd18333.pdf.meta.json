@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/SID/2025-05/SID%20-%20HDFC%20Flexi%20Cap%20Fund%20dated%20May%2030%2C%202025.pdf",
+  "sid": "sid-26779cd18333",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "ce86becd429e665fbe0559488dc95385b482a2262f3daff11917ba817c110c70",
+  "content_type": "application/pdf",
+  "bytes": 967273,
+  "fetched_at": "2026-09-29T21:29:51+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/sid-26779cd18333.pdf",
+  "http_date": "Fri, 30 May 2025 06:11:05 GMT",
+  "extras": {}
+}

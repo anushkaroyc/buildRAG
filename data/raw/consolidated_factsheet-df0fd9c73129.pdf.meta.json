@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/2026-04/HDFC%20MF%20Factsheet%20-%20March%202026.pdf",
+  "sid": "consolidated_factsheet-df0fd9c73129",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "1433472d13d2e42e0c0442e63f67b829ba896315632097e240946ae37ed9422c",
+  "content_type": "application/pdf",
+  "bytes": 9722024,
+  "fetched_at": "2026-09-29T21:30:16+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/consolidated_factsheet-df0fd9c73129.pdf",
+  "http_date": "Tue, 28 Jul 2026 10:57:22 GMT",
+  "extras": {}
+}

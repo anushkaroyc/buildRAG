@@ -1,0 +1,14 @@
+{
+  "url": "https://www.sebi.gov.in/sebi_data/mutualfundfile/nov-2024/1732787105223.pdf",
+  "sid": "sebi_sid-5d745566a62d",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "fa8164186bfd1e5a327e235bbb191f1a65a4d3699dd7425666ce220c638ec996",
+  "content_type": "application/pdf",
+  "bytes": 940904,
+  "fetched_at": "2026-09-29T21:30:12+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/sebi_sid-5d745566a62d.pdf",
+  "http_date": "Thu, 28 Nov 2024 09:45:05 GMT",
+  "extras": {}
+}

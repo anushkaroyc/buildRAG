@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/KIM/2025-05/KIM%20-%20HDFC%20Flexi%20Cap%20Fund%20dated%20May%2030%2C%202025.pdf",
+  "sid": "kim-c854a4eea133",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "b9bd64d0c320063712d9efdacb91af88b1cf7b625deef4b98d1b4b2bb484cb26",
+  "content_type": "application/pdf",
+  "bytes": 489973,
+  "fetched_at": "2026-09-29T21:29:52+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/kim-c854a4eea133.pdf",
+  "http_date": "Fri, 30 May 2025 06:11:10 GMT",
+  "extras": {}
+}

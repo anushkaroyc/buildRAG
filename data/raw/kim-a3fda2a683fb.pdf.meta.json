@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/KIM/2025-05/KIM%20-%20HDFC%20Large%20Cap%20Fund%20dated%20May%2030%2C%202025.pdf",
+  "sid": "kim-a3fda2a683fb",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "890044adba8793abaf199316913cdf04eb6aa03020b250aac3debdf5b67e469e",
+  "content_type": "application/pdf",
+  "bytes": 491611,
+  "fetched_at": "2026-09-29T21:29:46+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/kim-a3fda2a683fb.pdf",
+  "http_date": "Fri, 30 May 2025 06:26:46 GMT",
+  "extras": {}
+}

@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Nifty%2050%20Index%20Fund%20dated%20November%2021%2C%202025.pdf",
+  "sid": "sid-8e79c4219eb1",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "81b4f5c1f18bf778be8fea6ff779cc6e121ec00e022d5a6b2c3d1b8224cc144d",
+  "content_type": "application/pdf",
+  "bytes": 948623,
+  "fetched_at": "2026-09-29T21:30:05+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/sid-8e79c4219eb1.pdf",
+  "http_date": "Fri, 21 Nov 2025 05:37:48 GMT",
+  "extras": {}
+}

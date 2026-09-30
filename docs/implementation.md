@@ -1,9 +1,11 @@
 # Implementation Plan — Mutual Fund Facts-Only FAQ Assistant
 
-**Status:** Draft · **Last updated:** 2026-09-30
+**Status:** Draft · **Last updated:** 2026-10-01
 **Derived from:** `docs/architecture.md` · `docs/PRD.md` · `docs/ProblemStatement.txt`
-**Code:** none written yet. This document specifies *what to build and how to know each
-stage works* before any of it exists.
+**Code:** Phases 1–5 are built; Phase 6 is not started. The gates below remain the
+definition of done — `README.md` §Status carries the current, measured state, and
+where it differs from what this plan predicted. This document still specifies *what
+to build and how to know each stage works*.
 
 ---
 

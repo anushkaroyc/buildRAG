@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Nifty%2050%20Index%20Fund%20dated%20November%2021%2C%202025.pdf",
+  "sid": "kim-cebcf71d1b18",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "ba0b11b02b8ed4f52ffd89f400e09b9dbc0fc712d10cbdf0c2390c69e73ebb10",
+  "content_type": "application/pdf",
+  "bytes": 515847,
+  "fetched_at": "2026-09-29T21:30:07+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/kim-cebcf71d1b18.pdf",
+  "http_date": "Fri, 21 Nov 2025 05:38:12 GMT",
+  "extras": {}
+}

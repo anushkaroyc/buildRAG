@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20ELSS%20Tax%20Saver%20dated%20November%2021%2C%202025.pdf",
+  "sid": "sid-71b0231555e8",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "e5a269819fb69cbe2ec53f8efdc250f0b3125738a8a77c697e258e63a7c5a2bd",
+  "content_type": "application/pdf",
+  "bytes": 951890,
+  "fetched_at": "2026-09-29T21:30:02+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/sid-71b0231555e8.pdf",
+  "http_date": "Fri, 21 Nov 2025 10:00:08 GMT",
+  "extras": {}
+}

@@ -14,6 +14,11 @@
 fastapi==0.142.0
 uvicorn==0.54.0
 pydantic-settings==2.15.0
+# `.env` parsing. pydantic-settings uses it as its dotenv backend, so it is
+# listed as a direct dependency rather than left to arrive transitively: it is
+# the thing that decides whether a missing key degrades safely (ST-2) or
+# silently misconfigures. Pinned to the version resolved in .venv.
+python-dotenv==1.2.3
 jinja2==3.1.6
 
 # --- ingest ---
@@ -29,6 +34,17 @@ chromadb==1.5.9
 
 # --- llm ---
 groq==1.7.0
+
+# --- ui ---
+# Measured 2026-10-01: streamlit adds ~32 MB RSS on top of the ~283 MB the
+# index + fastembed already cost, so the combined ~315 MB still fits Render's
+# 512 MB free tier (docs/architecture.md 9.1, gate 6.6). It pulls in pandas and
+# pyarrow transitively, which is the bulk of that 32 MB.
+#
+# Only for the local demo surface. The deployed service is FastAPI (app.main);
+# Streamlit is not on the Render path, so the free tier is never asked to hold
+# both.
+streamlit==1.64.0
 
 # --- tests ---
 pytest==9.1.1

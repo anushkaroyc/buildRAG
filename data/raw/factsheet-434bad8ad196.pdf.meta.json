@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/Others/2026-06/Fund%20Facts%20-%20HDFC%20Flexi%20Cap%20Fund_June%2026.pdf",
+  "sid": "factsheet-434bad8ad196",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "e5707d7f4815a9f88e6e8c99a34d04a1eb7e6e0fb95fbcfdbde627878181e9cf",
+  "content_type": "application/pdf",
+  "bytes": 471524,
+  "fetched_at": "2026-09-29T21:29:49+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/factsheet-434bad8ad196.pdf",
+  "http_date": "Mon, 22 Jun 2026 08:52:34 GMT",
+  "extras": {}
+}

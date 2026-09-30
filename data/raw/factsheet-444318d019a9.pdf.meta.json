@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/Others/2026-06/Fund%20Facts%20-%20HDFC%20NIFTY%2050%20Index%20Fund_June%2026.pdf",
+  "sid": "factsheet-444318d019a9",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "a7c205afaa7e89be6faffb7eaa7c1251bdddfd112abd6a6cf6cfb6855756f404",
+  "content_type": "application/pdf",
+  "bytes": 983808,
+  "fetched_at": "2026-09-29T21:30:04+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/factsheet-444318d019a9.pdf",
+  "http_date": "Thu, 18 Jun 2026 10:17:03 GMT",
+  "extras": {}
+}

@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Mid%20Cap%20Fund%20dated%20November%2021%2C%202025.pdf",
+  "sid": "kim-a0873951eb60",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "cb95db1b58c8f4b9f26acb65f6f24e07e00dfb190b8aa6f36be75ec551cb3ee0",
+  "content_type": "application/pdf",
+  "bytes": 470065,
+  "fetched_at": "2026-09-29T21:29:58+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/kim-a0873951eb60.pdf",
+  "http_date": "Fri, 21 Nov 2025 07:04:09 GMT",
+  "extras": {}
+}

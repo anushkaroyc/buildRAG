@@ -1,0 +1,14 @@
+{
+  "url": "https://files.hdfcfund.com/s3fs-public/Others/2026-05/Fund%20Facts%20-%20HDFC%20Mid-Cap%20Fund_April%2026.pdf",
+  "sid": "factsheet-7248a7172183",
+  "status": 200,
+  "ok": true,
+  "reason": "",
+  "sha256": "b6ee5942a71164cffbdf84cb4dde6be5b93ecb01aad8b610f3112eb49dc78b68",
+  "content_type": "application/pdf",
+  "bytes": 405692,
+  "fetched_at": "2026-09-29T21:29:53+00:00",
+  "raw_path": "/Users/apple/buildRAG/data/raw/factsheet-7248a7172183.pdf",
+  "http_date": "Tue, 05 May 2026 10:41:36 GMT",
+  "extras": {}
+}
