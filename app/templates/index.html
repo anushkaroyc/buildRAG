@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mutual Fund Facts-Only FAQ Assistant</title>
+<link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <h1>Mutual Fund Facts-Only FAQ Assistant</h1>
+    {# Gate 6.1: the disclaimer is on screen before a single question is asked. #}
+    <p class="disclaimer" id="site-disclaimer">Facts-only. No investment advice.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="intro" id="intro">
+    <p>
+      Ask a factual question about the five HDFC Mutual Fund equity schemes below.
+      Answers come only from official HDFC, SEBI and AMFI documents, and every
+      answer links the one document it came from.
+    </p>
+    <div class="examples" role="group" aria-label="Example questions">
+      <span class="examples-label">Try:</span>
+      <button type="button" class="chip" data-question="What is the exit load on HDFC Top 100 Fund - Direct Growth?">Exit load on Top 100</button>
+      <button type="button" class="chip" data-question="What is the benchmark of HDFC Flexi Cap Fund - Direct Growth?">Benchmark of Flexi Cap</button>
+      <button type="button" class="chip" data-question="Should I buy HDFC ELSS Tax Saver Fund to save tax under section 80C?">Ask for advice (will refuse)</button>
+    </div>
+  </section>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <section id="transcript" class="transcript" aria-live="polite" aria-label="Conversation"></section>
+
+  <form id="ask-form" class="composer" autocomplete="off">
+    <label class="visually-hidden" for="question">Your question</label>
+    <textarea id="question" name="question" rows="2" maxlength="500"
+              placeholder="Ask a factual question, e.g. What is the exit load on HDFC Flexi Cap Fund?"
+              required></textarea>
+    <div class="composer-actions">
+      <label class="toggle">
+        <input type="checkbox" id="debug-toggle">
+        <span>Show retrieval details</span>
+      </label>
+      <button type="button" id="clear" class="btn-ghost">Clear</button>
+      <button type="submit" id="send" class="btn-primary">Ask</button>
+    </div>
+    <p class="composer-hint">500 characters max. Facts only &mdash; this assistant never recommends buying, selling or holding a scheme.</p>
+  </form>
+
+</main>
+
+<footer class="wrap footer">
+  <p>
+    Sources are limited to <code>hdfcfund.com</code>, <code>hdfcmf.com</code>,
+    <code>sebi.gov.in</code> and <code>amfiindia.com</code>. Figures are dated from
+    the source document and are not live. This is a demonstration project, not
+    investment advice.
+  </p>
+  <p class="footer-links">
+    <a href="/healthz">Health</a> &middot; <a href="/docs">API docs</a> &middot;
+    <a href="/ask">POST /ask</a>
+  </p>
+</footer>
+
+<script src="{{ url_for('static', path='app.js') }}"></script>
+</body>
+</html>

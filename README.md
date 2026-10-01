@@ -19,7 +19,8 @@ A class demo built to a written brief. Documents:
 ## Status
 
 **Phases 1–4 complete. Phase 5 code is complete and wired, but its exit gate is
-not met and has never been measured passing.**
+not met and has never been measured passing. The Phase 6 UI is built and
+deployed; its live gates are not all verified.**
 
 | Phase | Brief RAG stage | Status |
 | --- | --- | --- |
@@ -28,10 +29,11 @@ not met and has never been measured passing.**
 | 3 | Embedding (+ store) | ✅ done |
 | 4 | — (guardrails) | ✅ done — gates 4.1–4.9 pass |
 | 5 | Similarity Search (+ generate) | ⚠️ **code done, gate 5.1 not met** |
-| 6 | — (UI, deploy, deliverables) | ⬜ not started |
+| 6 | — (UI, deploy, deliverables) | 🚦 **UI + deploy done; live gates 6.3–6.6, 6.9 unverified** |
 
 `POST /ask` is live and works end to end — guardrails → retrieve → generate →
-validate. Ask it over HTTP:
+validate. There is a browser UI at `/`: open <http://localhost:8000> and ask
+in the page, or call the API directly:
 
 ```bash
 curl -s localhost:8000/ask -H 'content-type: application/json' \
@@ -40,6 +42,13 @@ curl -s localhost:8000/ask -H 'content-type: application/json' \
 
 …or in the terminal, where you can also see the retrieved chunks:
 `.venv/bin/python -m app.ask`
+
+There is a second, optional UI for local use — a Streamlit surface with the
+retrieval diagnostics:
+
+```bash
+.venv/bin/python -m streamlit run app/ui.py
+```
 
 ### Why Phase 5 is not marked done
 
@@ -72,15 +81,56 @@ pip install -r requirements.txt
 cp .env.example .env               # then add GROQ_API_KEY
 ```
 
+**Build the vector index.** `data/chroma/` is not committed, so a fresh clone
+has none and `POST /ask` will answer "I could not search the source documents"
+until you do this. It takes ~5 minutes and needs no network — the fetched pages
+are committed under `data/raw/`:
+
+```bash
+.venv/bin/python -m app.ingest.build_index --offline --embed
+```
+
+Add `--skip-probe` to skip the gate 3.8 memory measurement. Locally it is not
+needed; on Render's build container it is, because the measurement forks a
+second interpreter while the builder is still holding all 1,926 vectors and the
+pair exceeds the container's limit (see [`docs/architecture.md` §11](docs/architecture.md)).
+
 Run it:
 
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-- Landing page: <http://localhost:8000>
+- Chat UI: <http://localhost:8000>
 - Health + config: <http://localhost:8000/healthz>
 - API docs: <http://localhost:8000/docs>
+
+## Deploying to Render
+
+A Web Service, with these three fields:
+
+| Field | Value |
+| --- | --- |
+| Root Directory | *(repo root — leave blank)* |
+| Build Command | `pip install -r requirements.txt && python -m app.ingest.build_index --offline --embed` |
+| Start Command | `uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
+
+Environment variables — see [Configuration](#configuration) for what each one
+does. Only `GROQ_API_KEY` is required:
+
+```
+GROQ_API_KEY=<your key>
+PYTHON_VERSION=3.12
+```
+
+Two things that are easy to get wrong, both of which failed a real deploy:
+
+- **`.env` is gitignored, so nothing is inherited from your machine.** Every
+  setting must be added in the Render dashboard. A value carrying a stray tab
+  or trailing note (`5<TAB>No`) aborts the build, because `top_k` is typed `int`.
+- **`PYTHON_VERSION` is not pinned in the repo.** There is no
+  `.python-version`, so Render picks its default (3.14 at time of writing).
+  Set it explicitly.
 
 Run the tests (no network or API key needed):
 

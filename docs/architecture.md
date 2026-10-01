@@ -428,15 +428,18 @@ buildRAG/
 
 | Path | Git | Why |
 | --- | --- | --- |
-| `data/chroma/` | **commit** | Container has no RAM/time to build it at boot |
-| `data/raw/` | **commit** | Reproducibility + audit trail for citations |
+| `data/chroma/` | **ignore** | ~31 MB binary vector store. Rebuilt by the Render build command from `data/raw/`; see §11 |
+| `data/raw/` | **commit** | The rebuild input, plus reproducibility and an audit trail for citations |
 | `data/sources.csv` | **commit** | Deliverable |
 | `data/parsed/` | ignore | Derived; rebuilt from `raw/` |
-| `.env` | **never** | Secrets |
+| `.env` | **never** | Secrets; every setting is a Render env var instead |
 
-If `data/chroma/` gets large, move it to a Render **pre-deploy command** instead of
-committing it — but the pre-deploy step also runs in a 512 MB container, so verify it
-fits before choosing that route.
+This is a deliberate reversal of the original "commit the index" plan, and the
+consequence is worth stating plainly: **a fresh clone has no index.** `POST /ask` degrades
+to ST-1 rather than answering, and the `needs_index` tests skip — so a green local suite is
+not evidence that retrieval works until `python -m app.ingest.build_index --offline --embed`
+has been run. Build the index before trusting either.
+
 
 ---
 
@@ -557,8 +560,46 @@ pytest tests/ -q && python tests/eval.py
 ```
 
 `render.yaml` defines a `type: web`, `plan: free` service, `buildCommand: pip install -r
-requirements.txt`, `startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT`, and
-a `/healthz` health check. **The build command must not run `build_index`** — see §9.1.
+requirements.txt && python -m app.ingest.build_index --offline --embed`,
+`startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT`, and a `/healthz` health
+check.
+
+**The index is rebuilt at build time, not committed.** §7 originally committed
+`data/chroma/` so the container shipped a prebuilt index; `.gitignore` now excludes it and
+the build command regenerates it from the committed `data/raw/`. Rebuilding is the better
+trade for this corpus — a ~31 MB binary store in git is a poor thing to review — and
+`--offline` means it needs no network.
+
+**Gate 3.8 is advisory at build time, and that is deliberate.** After the upsert,
+`embed_and_store` forks a second interpreter to measure the serving footprint (§9.1). The
+same corpus measures 306 MB on macOS and over 400 MB on Render's Linux build container,
+while §9.1 puts fastembed at ~390–410 MB — so the 400 MB ceiling sits *inside* the predicted
+band of a number that is environment-sensitive by construction. Failing a deploy on it
+measures the machine as much as the code. The build therefore prints the measured peak and
+reports `AMBER`, and `tests/test_store.py::test_gate_3_8_serving_footprint_under_400mb`
+still asserts the ceiling on a clean process. `--strict-gate-38` restores hard enforcement
+where the number has to bind (a release gate, not a demo deploy).
+
+The first version of this failure was misread as an OOM, and the mistake is worth recording
+because the log invited it: the parent does hold 821 MB at the moment it forks, every one of
+the 1,926 vectors resident, so "parent + child over the cgroup limit" is arithmetically
+plausible. But the child exited **1**, not **-9**. `app/probe.py` returns 1 *by design* when
+the peak misses the gate, and `measure_subprocess()` read any nonzero exit as a crash and
+formatted its message from `result.stderr` — empty — throwing away the one copy of the
+measured number. `embed_and_store` then raised, discarding a complete, correct 1,926-vector
+index. An empty stderr is the tell: a real crash narrates itself, a swallowed number does
+not.
+
+Two further Render-specific constraints, both learned from a failed deploy:
+
+- **`.env` is gitignored, so nothing is inherited from a local file.** Every setting in §8
+  must exist as a Render environment variable. A value carrying a stray tab or trailing
+  note (`"5\tNo"`) fails Pydantic validation and aborts the build, because `top_k: int`
+  will not parse it.
+- **Python is not pinned in the repo.** There is no `.python-version`, so Render picks its
+  default, currently 3.14. Set `PYTHON_VERSION` explicitly; every wheel in
+  `requirements.txt` is a pure-Python or abi3 build, so this resolves cleanly.
+
 
 ---
 

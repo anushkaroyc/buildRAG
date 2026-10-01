@@ -1,6 +1,12 @@
 """FastAPI entrypoint.
 
-`/healthz` (Phase 1) and `POST /ask` (Phase 5). The web UI arrives in Phase 6.
+`/healthz` (Phase 1), `POST /ask` (Phase 5) and the browser UI at `/` (Phase 6).
+
+The UI is server-rendered HTML plus a dependency-free `static/app.js` that calls
+`/ask` - no framework, no build step (architecture 6.1). It adds no answering
+logic of its own: the guardrails cannot be bypassed by "just calling the model
+from the UI", which is the property that makes the Streamlit surface in
+`app/ui.py` a display layer rather than a second pipeline.
 
 Memory is a hard constraint on the deployment target (Render free tier = 512 MB,
 docs/architecture.md 9.1), so resident memory is reported from the first commit
@@ -10,22 +16,36 @@ docs/architecture.md 9.1), so resident memory is reported from the first commit
 from __future__ import annotations
 
 import platform
+from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 from .api import AskRequest, ask
 from .config import get_settings
 from .meminfo import current_rss_mb, memory_mb, peak_rss_mb
 
+REPO = Path(__file__).resolve().parents[1]
+TEMPLATE_DIR = REPO / "app" / "templates"
+STATIC_DIR = REPO / "static"
+
 app = FastAPI(
     title="Mutual Fund Facts-Only FAQ Assistant",
-    version="0.5.0",
+    version="0.6.0",
     description=(
         "Facts-only Q&A over official HDFC Mutual Fund, SEBI and AMFI pages. "
         "Not investment advice."
     ),
 )
+
+# Server-rendered HTML rather than a JS framework: architecture 6.1 picks this
+# so the Render image carries no Node toolchain. `jinja2` is already a pinned
+# dependency. Mounted from the repo root rather than relative to the CWD so the
+# page still renders if the service is started from another directory.
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+templates = Jinja2Templates(directory=str(TEMPLATE_DIR))
 
 
 @app.get("/healthz")
@@ -65,29 +85,18 @@ def post_ask(payload: AskRequest) -> dict:
 
 
 @app.get("/", response_class=HTMLResponse)
-def root() -> str:
-    """Placeholder landing page. The real UI ships in Phase 6."""
-    settings = get_settings()
-    ready = settings.groq_configured and settings.index_present
-    return f"""<!doctype html>
-<html lang="en">
-<head><meta charset="utf-8"><title>MF Facts-Only FAQ Assistant</title></head>
-<body>
-  <h1>Mutual Fund Facts-Only FAQ Assistant</h1>
-  <p><strong>Status:</strong> Phase 5 complete. <code>POST /ask</code> is live;
-     the browser interface arrives in Phase 6.</p>
-  <p>Try it over HTTP:</p>
-  <pre>curl -s localhost:8000/ask -H 'content-type: application/json' \\
-  -d '{{"question":"Is there an exit load on HDFC Flexi Cap Fund?","debug":true}}'</pre>
-  <p>Or in the terminal, where you can also see the retrieved chunks:
-     <code>.venv/bin/python -m app.ask</code></p>
-  <p><strong>Groq API key configured:</strong> {settings.groq_configured}</p>
-  <p><strong>Vector index present:</strong> {settings.index_present}</p>
-  <p><strong>Memory:</strong> {memory_mb()} MB
-     (Render free tier budget: 512 MB)</p>
-  <p>API docs: <a href="/docs">/docs</a> &middot; Health: <a href="/healthz">/healthz</a></p>
-  <hr>
-  <p><em>Facts-only. No investment advice.</em></p>
-</body>
-</html>
-"""
+def root(request: Request):
+    """The browser interface (Phase 6).
+
+    Renders the chat page; `static/app.js` then drives it against `POST /ask`.
+    Deliberately server-rendered: the page is useful with no JavaScript at all
+    (it explains the API and links `/docs`), and the same URL is what a reviewer
+    opens, so it must never be a blank shell that only a working bundle can fill.
+
+    `request` comes first because Starlette 1.7 removed the older
+    `(name, {"request": ...})` form. fastapi 0.142 resolves Starlette 1.7, and the
+    old signature fails with `TypeError: unhashable type: 'dict'` raised from
+    inside Jinja's template cache - an error naming neither the cause nor the
+    call site.
+    """
+    return templates.TemplateResponse(request, "index.html")
