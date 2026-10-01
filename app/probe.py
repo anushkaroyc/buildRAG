@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import signal
 import sys
 
 from .meminfo import current_rss_mb, memory_mb, peak_rss_mb
@@ -95,8 +96,65 @@ def measure(n_queries: int = 4) -> dict:
     }
 
 
+def _parse_report(stdout: str) -> dict | None:
+    """Pull the report out of the child's stdout, or None if it never emitted one.
+
+    Scans backwards and skips anything that is not a JSON object carrying the peak,
+    so a stray print from a native library (`onnxruntime`, `tokenizers`) landing on
+    stdout cannot hide an otherwise valid report.
+    """
+    for line in reversed(stdout.strip().splitlines()):
+        line = line.strip()
+        if not line.startswith("{"):
+            continue
+        try:
+            parsed = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(parsed, dict) and "serving_peak_mb" in parsed:
+            return parsed
+    return None
+
+
+def _crash_detail(result) -> str:
+    """Explain a probe subprocess that produced no report, in the terms that matter."""
+    code = result.returncode
+    if code < 0:
+        how = f"was killed by signal {signal.Signals(-code).name} ({-code})"
+    else:
+        how = f"exited {code}"
+
+    parts = [f"probe produced no report; child {how}"]
+    for label, stream in (("stdout", result.stdout), ("stderr", result.stderr)):
+        tail = stream.strip()[-400:]
+        if tail:
+            parts.append(f"{label}: {tail}")
+    if code == -signal.SIGKILL and not result.stderr.strip():
+        parts.append(
+            "SIGKILL with an empty stderr is the OOM killer, not a Python error: "
+            "the build container ran out of cgroup memory while this probe ran "
+            "alongside the builder. Rebuild with --skip-probe, or give the build "
+            "container more memory."
+        )
+    return " | ".join(parts)
+
+
 def measure_subprocess() -> dict:
-    """Run `measure()` in a fresh interpreter, so no build state is inherited."""
+    """Run `measure()` in a fresh interpreter, so no build state is inherited.
+
+    A nonzero exit code is **not** by itself a failure here. `main()` returns 1 when
+    gate 3.8 is not met, and that is a measurement rather than a crash - the report
+    has already been written to stdout by then. Conflating the two raised
+    `RuntimeError("probe failed (1): ")` with an empty stderr tail, because the
+    number lives in `result.stdout`, which was discarded: the one figure this
+    function exists to produce was the only thing lost, and an over-budget build
+    died with an empty message and no diagnosis.
+
+    So the report is parsed first and returned whatever the exit code; the verdict
+    travels with it in `gate_3_8_pass` for the caller to act on. Only a child that
+    produced no report at all is an error, and that message says whether it was a
+    signal (an OOM kill) or an exit status, and carries both output streams.
+    """
     import subprocess
     from pathlib import Path
 
@@ -107,9 +165,15 @@ def measure_subprocess() -> dict:
         cwd=str(Path(__file__).resolve().parents[1]),
         timeout=600,
     )
-    if result.returncode != 0:
-        raise RuntimeError(f"probe failed ({result.returncode}): {result.stderr[-400:]}")
-    return json.loads(result.stdout)
+
+    report = _parse_report(result.stdout)
+    if report is not None:
+        # `gate_3_8_pass` is authoritative, but carry the code so a reader can see
+        # that a measured-and-failed probe returned 1 by design, not by accident.
+        report["exit_code"] = result.returncode
+        return report
+
+    raise RuntimeError(_crash_detail(result))
 
 
 def _render(report: dict) -> str:
